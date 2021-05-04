@@ -1,0 +1,13 @@
+# name                    number of elements    byte address  size  bar   width   fracbits  signed  access
+CONTROL.STATUS            1                     0x6000        2     3     16      0         0       RO
+CONTROL.COMMAND           1                     0x4000        2     3     16      0         0       WO
+CONTROL.SET_FREQUENCY     1                     0x0010        2     3     16      0         0       WO
+CONTROL.STORED_FREQUENCY  1                    0x1E010        2     3     16      0         0       RO
+CONTROL.DIGITAL_OUT       1                     0x4002        2     3     16      0         0       WO
+STATUS.FREQUENCY          1                     0xE000        2     3     16      0         0       RO
+STATUS.OUTPUT_VOLTAGE     1                     0xE006        2     3     16      0         0       RO
+STATUS.OUTPUT_CURRENT     1                     0xE008        2     3     16      0         0       RO
+STATUS.OUTPUT_POWER       1                     0xE00A        2     3     16      0         0       RO
+STATUS.OUTPUT_TORQUE      1                     0xE00C        2     3     16      0         0       RO
+STATUS.PANEL_POTI         1                     0xE016        2     3     16      0         0       RO
+

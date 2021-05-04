@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/mhier/spindle-control
+RES=`~/ChimeraTK/install-debug/bin/mtca4u read FU STATUS FREQUENCY | tail -n1`
+echo $RES

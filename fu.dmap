@@ -1,0 +1,2 @@
+@LOAD_LIB /home/mhier/ChimeraTK/install-debug/lib/libChimeraTK-DeviceAccess-ModbusBackend.so
+FU  (modbus:/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0?type=rtu&map=fu.map&parity=N&baud=9600&databits=8&stopbits=2)

@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ -z "$1" ]; then
+  echo "Frequency missing!"
+  exit 1
+fi
+if [ $1 -gt 400 -o $1 -lt 0 ]; then
+  echo "Frequency out of range!"
+  exit 1
+fi
+cd /home/mhier/spindle-control
+~/ChimeraTK/install-debug/bin/mtca4u write FU CONTROL SET_FREQUENCY "$1"00
+sleep 3
