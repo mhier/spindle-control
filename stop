@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /home/mhier/spindle-control
+~/ChimeraTK/install-debug/bin/mtca4u write FU CONTROL COMMAND 6
+# Fan off
+/home/mhier/ChimeraTK/install-debug/bin/mtca4u write FU CONTROL DIGITAL_OUT 1
