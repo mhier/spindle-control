@@ -8,5 +8,6 @@ if [ $1 -gt 400 -o $1 -lt 0 ]; then
   exit 1
 fi
 cd /home/mhier/spindle-control
-~/ChimeraTK/install-debug/bin/mtca4u write FU CONTROL SET_FREQUENCY "$1"00
+f=$( echo "$1*100" | bc )
+~/ChimeraTK/install-debug/bin/mtca4u write FU CONTROL SET_FREQUENCY "$f"
 sleep 3
