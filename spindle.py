@@ -16,14 +16,14 @@ class Spindle:
 
         self.handler_G0 = gcode.register_command("G0", None)
         gcode.register_command("G0", self.cmd_G0)
-        
+
         self.spindle_speed = 0
 
     def _handle_ready(self):
         self.tool = self.printer.lookup_object('toolhead')
 
     def cmd_START(self, gcmd):
-    
+
         # wait until toolhead is in position
         self.tool.wait_moves()
 
@@ -46,13 +46,13 @@ class Spindle:
 
 
     def cmd_STOP(self, gcmd):
-    
+
         # wait until toolhead is in position
         self.tool.wait_moves()
-    
+
         cmd = "/home/mhier/spindle-control/stop"
-        output = subprocess.Popen(cmd, shell=True,                            \
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                  \
+        output = subprocess.Popen(cmd, shell=True,                             \
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
             .communicate()[0]
         gcmd.respond_info(output)
 
@@ -65,12 +65,13 @@ class Spindle:
 
 
     def cmd_M220(self, gcmd):
-    
+
         # wait until toolhead is in position
         self.tool.wait_moves()
 
         self.handler_M220(gcmd)
-        gcmd.respond_info("New speed factor: %5.3f" % self.gcode_move.speed_factor)
+        gcmd.respond_info(                                                     \
+            "New speed factor: %5.3f" % self.gcode_move.speed_factor)
 
         cmd = "/home/mhier/spindle-control/set_frequency " +                   \
             str(self.spindle_speed * self.gcode_move.speed_factor)
@@ -78,7 +79,7 @@ class Spindle:
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
             .communicate()[0]
         gcmd.respond_info(output)
-            
+
 
 def load_config(config):
     return Spindle(config)
