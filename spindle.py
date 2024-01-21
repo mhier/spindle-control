@@ -35,19 +35,15 @@ class Spindle:
         p = gcmd.get_command_parameters()
         self.spindle_speed = int(float(p['S']))
 
-        cmd = "/home/mhier/spindle-control/start"
-        output = subprocess.Popen(cmd, shell=True,                             \
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
-            .communicate()[0]
-        gcmd.respond_info(output)
-
         # self.speed_factor is 1/60 by default, so it converts to Hz
-        cmd = "/home/mhier/spindle-control/set_frequency " +                   \
-            str(self.spindle_speed * self.gcode_move.speed_factor)
-        output = subprocess.Popen(cmd, shell=True,                             \
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
-            .communicate()[0]
-        gcmd.respond_info(output)
+        cmd = "/home/mks/spindle-control/set_frequency.py " +                  \
+            str(int(self.spindle_speed * self.gcode_move.speed_factor))
+        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        gcmd.respond_info(p.stdout)
+
+        cmd = "/home/mks/spindle-control/start.py"
+        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        gcmd.respond_info(p.stdout)
 
 
     def cmd_STOP(self, gcmd):
@@ -55,11 +51,9 @@ class Spindle:
         # wait until toolhead is in position
         self.tool.wait_moves()
 
-        cmd = "/home/mhier/spindle-control/stop"
-        output = subprocess.Popen(cmd, shell=True,                             \
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
-            .communicate()[0]
-        gcmd.respond_info(output)
+        cmd = "/home/mks/spindle-control/stop.py"
+        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        gcmd.respond_info(p.stdout)
 
 
     def cmd_G0(self, gcmd):
@@ -84,12 +78,10 @@ class Spindle:
         gcmd.respond_info(                                                     \
             "New speed factor: %5.3f" % self.gcode_move.speed_factor)
 
-        cmd = "/home/mhier/spindle-control/set_frequency " +                   \
-            str(self.spindle_speed * self.gcode_move.speed_factor)
-        output = subprocess.Popen(cmd, shell=True,                             \
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT)                   \
-            .communicate()[0]
-        gcmd.respond_info(output)
+        cmd = "/home/mks/spindle-control/set_frequency.py " +                  \
+            str(int(self.spindle_speed * self.gcode_move.speed_factor))
+        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        gcmd.respond_info(p.stdout)
 
 
 def load_config(config):
