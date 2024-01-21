@@ -8,6 +8,7 @@ class Spindle:
         self.printer.register_event_handler("klippy:ready", self._handle_ready)
 
         gcode.register_command("M3", self.cmd_START)
+        gcode.register_command("M03", self.cmd_START)
         gcode.register_command("M5", self.cmd_STOP)
         gcode.register_command("M05", self.cmd_STOP)
 
@@ -16,6 +17,10 @@ class Spindle:
 
         self.handler_G0 = gcode.register_command("G0", None)
         gcode.register_command("G0", self.cmd_G0)
+        gcode.register_command("G00", self.cmd_G0)
+
+        self.handler_G1 = gcode.register_command("G1", None)
+        gcode.register_command("G01", self.handler_G1)
 
         self.spindle_speed = 0
 
@@ -28,7 +33,7 @@ class Spindle:
         self.tool.wait_moves()
 
         p = gcmd.get_command_parameters()
-        self.spindle_speed = int(p['S'])
+        self.spindle_speed = int(float(p['S']))
 
         cmd = "/home/mhier/spindle-control/start"
         output = subprocess.Popen(cmd, shell=True,                             \
@@ -56,6 +61,12 @@ class Spindle:
             .communicate()[0]
         gcmd.respond_info(output)
 
+
+    def cmd_G0(self, gcmd):
+        speed = self.gcode_move.speed
+        self.gcode_move.speed = 1e9
+        self.handler_G0(gcmd)
+        self.gcode_move.speed = speed
 
     def cmd_G0(self, gcmd):
         speed = self.gcode_move.speed
