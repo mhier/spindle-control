@@ -34,13 +34,15 @@ class Spindle:
         self.tool.wait_moves()
 
         p = gcmd.get_command_parameters()
-        self.spindle_speed = int(float(p['S']))
 
-        # self.speed_factor is 1/60 by default, so it converts to Hz
-        cmd = "/home/mks/spindle-control/set_frequency.py " +                  \
-            str(int(self.spindle_speed * self.gcode_move.speed_factor))
-        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-        gcmd.respond_info(p.stdout)
+        if 'S' in p :
+          self.spindle_speed = int(float(p['S']))
+
+          # self.speed_factor is 1/60 by default, so it converts to Hz
+          cmd = "/home/mks/spindle-control/set_frequency.py " +                  \
+              str(int(self.spindle_speed * self.gcode_move.speed_factor))
+          p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+          gcmd.respond_info(p.stdout)
 
         cmd = "/home/mks/spindle-control/start.py"
         p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
