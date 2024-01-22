@@ -20,6 +20,7 @@ class Spindle:
         gcode.register_command("G00", self.cmd_G0)
 
         self.handler_G1 = gcode.register_command("G1", None)
+        gcode.register_command("G1", self.handler_G1)
         gcode.register_command("G01", self.handler_G1)
 
         self.spindle_speed = 0
