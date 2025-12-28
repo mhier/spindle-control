@@ -1,2 +1,0 @@
-#!/bin/bash
-/home/mhier/spindle-control/set_frequency $(( OCTOPRINT_GCODESYSTEMCOMMAND_ARGS / 60 ))
