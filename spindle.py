@@ -23,6 +23,8 @@ class Spindle:
         gcode.register_command("G1", self.handler_G1)
         gcode.register_command("G01", self.handler_G1)
 
+        gcode.register_command("SWITCH_MODE", self.cmd_SWITCH_MODE)
+
         self.spindle_speed = 0
 
     def _handle_ready(self):
@@ -57,6 +59,14 @@ class Spindle:
         cmd = "/home/mks/spindle-control/stop.py"
         p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         gcmd.respond_info(p.stdout)
+
+    def cmd_SWITCH_MODE(self, gcmd):
+
+        cmd = "/home/mks/printer_data/config/switch-config.sh"
+        p = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        gcmd.respond_info(p.stdout)
+
+        self.printer.request_exit('firmware_restart')
 
 
     def cmd_G0(self, gcmd):
